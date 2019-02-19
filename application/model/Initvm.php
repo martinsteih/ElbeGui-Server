@@ -1,50 +1,33 @@
 <?php
 
 class Initvm {
-	private $name;
-	private $description;
-	private $buildType;
-	private $packageList;
+	private $buildType;//like amd64, armel, ppc ...
+	private $mirror;//used debian mirror
+	private $noauth;//allow installation of unsigned debian packages
+	private $preference;
+	private $suite;// like jessie or stretch
+	private $packageList;//list of packages to be installed
+	private $preseed;//custom preceeding value for apt
+	private $size;//size of the virtual hard disk
+	private $img;//hd image format like .img, .vmdk ...
+	private $portForwarding;//ports of the vm that are forwarded to the host
 
 	public
 	function __construct() {
-
+		$this->noauth = true;
 	}
 
 	public
-	function __construct( $name, $description, $buildType, $packageList = array() ) {
-		$this->name = $name;
-		$this->description = $description;
+	function __construct($buildType, $mirror, $noauth,  $packageList = array() ) {
 		$this->buildType = $buildType;
-		$this->packageList = $packageList;
-	}
-
-	public
-	function getName() {
-		return $this->name;
-	}
-
-	public
-	function setName( $name ) {
-		$this->name = $name;
+		$this->noauth = true;
 	}
 	
-	public
-		function getDescription(){
-		return $this->description;
-	}
-	
-	public function setDescription($description){
-		$this->description = $description;
-	}
-	
-	public function getBuildType(){
-		return $this->buildType;
+	public function export($exporterFactory){
+		$exporterFactory->get()->export($this);
 	}
 
-	public function setBuildType($buildType){
-		$this->buildType = $buildType;
-	}
+	
 }
 
 ?>
